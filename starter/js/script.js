@@ -66,18 +66,69 @@ let get_working_dh = function () {
     return get_days;
 }();
 
-let set_blocks_for_hours_row = function () {
-    let container = $('#container');
+let set_time_blocks = function () {
+
+    /*
+
+       <div class="row justify-content-md-center">
+      
+      <!-- <div class="col"> -->
+        
+      <!-- </div> -->
+      <!-- <div class="col-10"> -->
+        
+      <!-- </div> -->
+      <!-- <div class="col-1"> -->
+        <button class="saveBtn"><i class="bi bi-save"></i></button>
+      <!-- </div> -->
+  
 
 
 
-    for(let i =0; i < 8; i++){
 
-    }
+    */
+
+      let time_label = 'present'
+      let timeFrame = "12PM"
+    let container = $('.container');
+for(let i =0; i < 8; i++){
+    // add bootstrap  <div class="row justify-content-md-center">
+    let row = $("<div/>", {
+        class:"row no-gutters",
+        id: "row_animate"
+    }).appendTo(container); 
+
+    // let column = $("<div/>", {
+    //     class:"col-6 col-md-4",
+    //     id: "row_animate"
+    // }).appendTo(row); 
+
+    let label = $("<label/>", {
+        class: "hour",
+        for:"hour" ,
+        text:`${timeFrame}` 
+
+    }).appendTo(row);
    
+    // let column2 = $("<div/>", {
+    //     class:"col-6 col-md-4",
+    //     id: "row_animate"
+    // }).appendTo(row); 
+
+    let textArea = $("<textarea/>", {
+        class: `${time_label} description`,
+        id: "hour" 
+    }).appendTo(row);   
+    
 
 
+    let button = $("<button/>", {
+        class: `saveBtn`,
+        // html:`<i class="bi bi-save"></i>`
+        
+    }).appendTo(row);   
 
+}
 
 }
 
@@ -86,7 +137,8 @@ $(document).ready(function () {
     updateTime();
 
     console.log(get_working_dh.hour_12hrs_format)
-    set_blocks_for_hours_row()
+    // set_blocks_for_hours_row()
+    set_time_blocks()
 
 
 })
