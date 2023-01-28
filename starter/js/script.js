@@ -9,7 +9,7 @@ let updateTime = function () {
     setInterval(
         () => {
             //EEEE	day 
-            let cTime = luxon.DateTime.now().toFormat('EEEE dd-MMMM-yyyy HH:mm:ss ')	//=>	"01-27-2023"
+            let cTime = luxon.DateTime.now().toFormat('EEEE, dd-MMMM-yyyy HH:mm:ss ')	//=>	"01-27-2023"
 
             currentDay.text(cTime);
         }, 1000);
@@ -48,6 +48,11 @@ let get_working_dh = function () {
     
     return get_days();
 }();
+
+let set_inline_blocks_for_hours = function (){
+
+    
+}
 
 $(document).ready(function () {
     // display current time 
