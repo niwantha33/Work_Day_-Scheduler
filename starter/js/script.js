@@ -67,9 +67,9 @@ $(document).ready(function () {
             "5PM",
         ];
         // three type of color-code 
-        let color_class = ['past', 'present', 'future'];
+        let color_code = ['past', 'present', 'future'];
 
-        let container = $('.container');
+        let container = $('.container'); // get the div element 
 
         // delete all the children 
         if (container.children().length > 0) {
@@ -92,15 +92,15 @@ $(document).ready(function () {
 
             // set the color of the rows 
             if (i < idx) {
-                time_label = color_class[0];
+                time_label = color_code[0];
 
             } else if (i == idx) {
-                time_label = color_class[1];
+                time_label = color_code[1];
 
             } else if (i > idx) {
-                time_label = color_class[2];
+                time_label = color_code[2];
             }
-
+            // creates elements to div row 
             let row = $("<div/>", {
                 class: "row no-gutters",
                 id: "row_animate"
@@ -131,7 +131,7 @@ $(document).ready(function () {
         }
 
         try {
-            let pst_data = persist_data();
+            let pst_data = checkDataPersist(); // return the stored data
 
             if (pst_data !== null) {
 
@@ -154,7 +154,7 @@ $(document).ready(function () {
         }
     }
 
-    let persist_data = function () {
+    let checkDataPersist = function () {
 
         try {
             if (localStorage.hasOwnProperty("schedule")) {
