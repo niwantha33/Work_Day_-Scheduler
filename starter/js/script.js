@@ -4,18 +4,6 @@
 @return: N/A
 */
 
-let updateTime = function () {
-    let currentDay = $('#currentDay');
-    currentDay.addClass('time-block');
-    setInterval(
-        () => {
-            //EEEE	day 
-            let cTime = luxon.DateTime.now().toFormat('EEEE, dd-MMMM-yyyy HH:mm:ss ')	//=>	"01-27-2023"
-
-            currentDay.text(cTime);
-        }, 1000);
-}
-
 
 /*
 @brief: get working hours and days 
@@ -75,7 +63,7 @@ let set_time_blocks = function () {
         "9AM",
         "10AM",
         "11AM",
-        "0AM",
+        "12AM",
         "1PM",
         "2PM",
         "3PM",
@@ -140,11 +128,30 @@ let set_time_blocks = function () {
 
 $(document).ready(function () {
     // display current time 
-    updateTime();
 
-    console.log(get_working_dh.hour_12hrs_format)
-    // set_blocks_for_hours_row()
-    set_time_blocks()
+    let prev_timer = -Infinity
 
+    let updateTime = function () {
+        let currentDay = $('#currentDay');
+        currentDay.addClass('time-block');
+        setInterval(
+            () => {
+                //EEEE	day 
+                let cTime = luxon.DateTime.now().toFormat('EEEE, dd-MMMM-yyyy HH:mm:ss ')	//=>	"01-27-2023"
+                currentDay.text(cTime);
+                // every hour 
+                if (prev_timer !== luxon.DateTime.now().hour) {
+
+                    set_time_blocks()
+
+                    prev_timer = luxon.DateTime.now().hour;
+
+                }
+
+            }, 1000);
+    }
+
+
+    updateTime()
 
 })
