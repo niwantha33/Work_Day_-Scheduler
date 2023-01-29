@@ -128,15 +128,16 @@ let set_time_blocks = function () {
 
 }
 
-let save_localStorage = function (newArray) {
-    if (localStorage.hasOwnProperty("schedule")) {
-        localStorage.setItem("schedule", JSON.stringify(newArray))
-    }
+let save_localStorage = function (newArray) {    
+
+        localStorage.setItem("schedule", JSON.stringify(newArray))  
 
 
 }
 
-let persist_localStorage = function () {
+let persist_localStorage = function (obj) {
+
+    console.log(obj)
 
     let tmp = new Array(); // create tmp array to store data 
 
@@ -144,13 +145,17 @@ let persist_localStorage = function () {
 
         let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
 
+        console.log(rtv)
+
         let parse_rtv = JSON.parse(rtv);// convert from JSON to object 
 
         tmp.push(parse_rtv); // save to tmp array        
 
     }
     //  then push new object 
-    newArray.push(obj);
+    tmp.push(obj);
+
+    console.log(tmp)
 
     save_localStorage(tmp);
 
@@ -184,13 +189,13 @@ $(document).ready(function () {
     }
 
 
-    updateTime()
+    updateTime();
 
     $(document).on('click', '.saveBtn', function (e) {
-        e.preventDefault();
-        console.log(this.id)
 
-        let task_ = $(`#${this.id}`).val();
+        e.preventDefault();      
+
+        let task_ = $(`#${this.id}`).val().trim();
 
         let time_label = $(`#label-${this.id}`).text();
 
