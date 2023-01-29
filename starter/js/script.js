@@ -125,21 +125,52 @@ let set_time_blocks = function () {
         }).appendTo(row);
 
     }
+    let pst_data = persist_data();
+
+    if(pst_data !== null){
+        
+        pst_data.forEach((element ,k)=> {
+
+            console.log(element)
+            let idx_ = time_.indexOf(element.time)
+            console.log("Element:" + idx_+":"+element[k])
+            $(`textArea[id=${idx_}]`).text(element.task)
+        });
+        
+    }
 
 }
 
-let save_localStorage = function (newArray) {    
+let persist_data = function () {
 
-        localStorage.setItem("schedule", JSON.stringify(newArray))  
+    if (localStorage.hasOwnProperty("schedule")) {
+
+        let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
+
+        console.log(rtv)
+        console.log(JSON.parse(rtv))
+        return JSON.parse(rtv);// convert from JSON to object 
+
+    }
+    return null; 
 
 
 }
 
-let persist_localStorage = function (obj) {
+let save_localStorage = function (newArray) {
+    // debugger;
+    localStorage.setItem("schedule", JSON.stringify(newArray))
 
+
+}
+
+let trv_save_localStorage = function (obj) {
+    // debugger;
     console.log(obj)
 
-    let tmp = new Array(); // create tmp array to store data 
+    // let tmp = new Array(); // create tmp array to store data 
+    let tmp= [];
+    console.log(tmp)
 
     if (localStorage.hasOwnProperty("schedule")) { // check if key: schedule exist
 
@@ -148,18 +179,21 @@ let persist_localStorage = function (obj) {
         console.log(rtv)
 
         let parse_rtv = JSON.parse(rtv);// convert from JSON to object 
-
-        tmp.push(parse_rtv); // save to tmp array        
+        console.log(parse_rtv)
+        parse_rtv.forEach(element => {
+            tmp.push(element); // save to tmp array     
+        });
+          
 
     }
     //  then push new object 
     tmp.push(obj);
 
-    console.log(tmp)
+    console.log("after:"+tmp)
 
     save_localStorage(tmp);
 
-    return tmp;
+    // tmp.clear()
 
 }
 
@@ -191,15 +225,17 @@ $(document).ready(function () {
 
     updateTime();
 
+
+
     $(document).on('click', '.saveBtn', function (e) {
 
-        e.preventDefault();      
+        e.preventDefault();
 
         let task_ = $(`#${this.id}`).val().trim();
 
-        let time_label = $(`#label-${this.id}`).text();
+        let time_label = $(`#label-${this.id}`).text().trim();
 
-        persist_localStorage({ time: time_label, task: task_ })
+        trv_save_localStorage({ time: time_label, task: task_ })
 
     });
 
