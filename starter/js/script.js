@@ -53,16 +53,16 @@ $(document).ready(function () {
 
         let time_ = new Array(10);
 
-        time_ = [
-            "7AM",
+        time_ = [ // standard business hours
+            
             "8AM",
             "9AM",
             "10AM",
             "11AM",
             "12AM",
-            "6PM",
-            "7PM",
-            "8PM",
+            "1PM",
+            "2PM",
+            "3PM",
             "4PM",
             "5PM",
         ]
