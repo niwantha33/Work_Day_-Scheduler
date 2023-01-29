@@ -97,8 +97,6 @@ let set_time_blocks = function () {
             time_label = color_class[2];
         }
 
-
-
         let row = $("<div/>", {
             class: "row no-gutters",
             id: "row_animate"
@@ -107,17 +105,21 @@ let set_time_blocks = function () {
         let label = $("<label/>", {
             class: "hour",
             for: "hour",
+            id: `label-${i}`,
             text: `${time_[i]}`
 
         }).appendTo(row);
 
         let textArea = $("<textarea/>", {
             class: `${time_label} description`,
-            id: "hour"
+            id: `${i}`,
+            name: `${i}`
+
         }).appendTo(row);
 
         let button = $("<button/>", {
-            class: `saveBtn`,
+            class: `saveBtn ${i}`,
+            id: `${i}`,
             html: `<i class="bi bi-save"></i>`
 
         }).appendTo(row);
@@ -127,8 +129,9 @@ let set_time_blocks = function () {
 }
 
 let save_localStorage = function (newArray) {
-
-    localStorage.setItem("schedule", JSON.stringify(newArray))
+    if (localStorage.hasOwnProperty("schedule")) {
+        localStorage.setItem("schedule", JSON.stringify(newArray))
+    }
 
 
 }
@@ -141,12 +144,12 @@ let persist_localStorage = function () {
 
         let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
 
-        let parse_rtv = JSON.parse(rtv) ;// convert from JSON to object 
+        let parse_rtv = JSON.parse(rtv);// convert from JSON to object 
 
         tmp.push(parse_rtv); // save to tmp array        
-        
+
     }
-     //  then push new object 
+    //  then push new object 
     newArray.push(obj);
 
     save_localStorage(tmp);
@@ -182,5 +185,17 @@ $(document).ready(function () {
 
 
     updateTime()
+
+    $(document).on('click', '.saveBtn', function (e) {
+        e.preventDefault();
+        console.log(this.id)
+
+        let task_ = $(`#${this.id}`).val();
+
+        let time_label = $(`#label-${this.id}`).text();
+
+        persist_localStorage({ time: time_label, task: task_ })
+
+    });
 
 })
