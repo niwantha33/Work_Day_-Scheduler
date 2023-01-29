@@ -126,6 +126,35 @@ let set_time_blocks = function () {
 
 }
 
+let save_localStorage = function (newArray) {
+
+    localStorage.setItem("schedule", JSON.stringify(newArray))
+
+
+}
+
+let persist_localStorage = function () {
+
+    let tmp = new Array(); // create tmp array to store data 
+
+    if (localStorage.hasOwnProperty("schedule")) { // check if key: schedule exist
+
+        let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
+
+        let parse_rtv = JSON.parse(rtv) ;// convert from JSON to object 
+
+        tmp.push(parse_rtv); // save to tmp array        
+        
+    }
+     //  then push new object 
+    newArray.push(obj);
+
+    save_localStorage(tmp);
+
+    return tmp;
+
+}
+
 $(document).ready(function () {
     // display current time 
 
