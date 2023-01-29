@@ -15,23 +15,23 @@
 let get_working_dh = function () {
 
     // create object to handle working days and hours 
-    let workDaysHours = new Map()
+    let workDaysHours = new Map();
 
     let get_days = function () {
         // splitting the string to separate day and 24 hour
-        let _day = luxon.DateTime.now().toFormat('EEE, HH:a').split(',')
+        let _day = luxon.DateTime.now().toFormat('EEE, HH:a').split(',');
 
         workDaysHours = {
             // check the day 
             dayCat: ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week',
 
-            day: _day[0], // day
+            get day() { return _day[0] }, // day
 
             get hour_12hrs_format() {
 
                 let _t = _day[1].split(':') // split the "19: PM"
 
-                let _hour = Number(_t[0])
+                let _hour = Number(_t[0]);
 
                 let tmp_hour = 0;
 
@@ -46,7 +46,7 @@ let get_working_dh = function () {
 
                 return tmp_hour + _t[1];
 
-            }, // 24hrs        
+            },
         }
         return workDaysHours;
     }();
@@ -55,6 +55,7 @@ let get_working_dh = function () {
 }();
 
 let set_time_blocks = function () {
+
     let time_ = new Array(10);
 
     time_ = [
@@ -76,16 +77,14 @@ let set_time_blocks = function () {
 
     // let timeFrame = "12PM"
     let container = $('.container');
+
     for (let i = 0; i < time_.length; i++) {
         let idx = -1;
         let time_label = 0;
 
         if (time_.includes(get_working_dh.hour_12hrs_format)) {
 
-            console.log(idx)
-            // 
             idx = time_.indexOf(get_working_dh.hour_12hrs_format);
-            console.log(idx)
         }
         if (i < idx) {
             time_label = color_class[0];
@@ -125,77 +124,100 @@ let set_time_blocks = function () {
         }).appendTo(row);
 
     }
-    let pst_data = persist_data();
 
-    if(pst_data !== null){
-        
-        pst_data.forEach((element ,k)=> {
+    try {
+        let pst_data = persist_data();
 
-            console.log(element)
-            let idx_ = time_.indexOf(element.time)
-            console.log("Element:" + idx_+":"+element[k])
-            $(`textArea[id=${idx_}]`).text(element.task)
-        });
-        
+        if (pst_data !== null) {
+
+            pst_data.forEach((element, k) => {
+
+                let idx_ = time_.indexOf(element.time);
+
+                if(luxon.DateTime.now().toLocaleString() === element.day){
+                    $(`textArea[id=${idx_}]`).text(element.task);
+                }
+                
+            });
+
+        }
+
+    } catch (e) {
+        throw e;
     }
+
+
 
 }
 
 let persist_data = function () {
 
-    if (localStorage.hasOwnProperty("schedule")) {
+    try {
+        if (localStorage.hasOwnProperty("schedule")) {
 
-        let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
+            let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
 
-        console.log(rtv)
-        console.log(JSON.parse(rtv))
-        return JSON.parse(rtv);// convert from JSON to object 
+            return JSON.parse(rtv);// convert from JSON to object 
 
+        }
+        return null;
+
+    } catch (e) {
+
+        throw e;
     }
-    return null; 
-
 
 }
 
 let save_localStorage = function (newArray) {
     // debugger;
-    localStorage.setItem("schedule", JSON.stringify(newArray))
 
+    try {
+        localStorage.setItem("schedule", JSON.stringify(newArray));
 
-}
-
-let trv_save_localStorage = function (obj) {
-    // debugger;
-    console.log(obj)
-
-    // let tmp = new Array(); // create tmp array to store data 
-    let tmp= [];
-    console.log(tmp)
-
-    if (localStorage.hasOwnProperty("schedule")) { // check if key: schedule exist
-
-        let rtv = localStorage.getItem("schedule"); // retrieve data from local store 
-
-        console.log(rtv)
-
-        let parse_rtv = JSON.parse(rtv);// convert from JSON to object 
-        console.log(parse_rtv)
-        parse_rtv.forEach(element => {
-            tmp.push(element); // save to tmp array     
-        });
-          
-
+    } catch (e) {
+        throw e;
     }
-    //  then push new object 
-    tmp.push(obj);
-
-    console.log("after:"+tmp)
-
-    save_localStorage(tmp);
-
-    // tmp.clear()
 
 }
+
+/*
+@brief: this retrieve_save_localStorage function, takes object (obj) as a parameter, 
+        then create temporary empty array using Array object.
+
+        hasOwnProperty() method will check  whether "schedule"  key is existing
+        or not. If the key is there, then, 
+
+*/
+
+let retrieve_save_localStorage = function (obj) {
+
+    // debugger;
+    try {
+
+        let tmp = new Array(); // create tmp array to store data 
+
+        if (localStorage.hasOwnProperty("schedule")) { // check if key: schedule exist
+
+            let rtv = localStorage.getItem("schedule"); // retrieve data from local store         
+
+            let parse_rtv = JSON.parse(rtv);// convert from JSON to object 
+
+            parse_rtv.forEach(element => {
+                tmp.push(element); // append to tmp array     
+            });
+
+        };
+        //  then push new object 
+        tmp.push(obj); // append to tmp array 
+
+        save_localStorage(tmp); // save tmp object  
+
+    } catch (e) {
+        throw e;
+    }
+}
+
 
 $(document).ready(function () {
     // display current time 
@@ -235,7 +257,15 @@ $(document).ready(function () {
 
         let time_label = $(`#label-${this.id}`).text().trim();
 
-        trv_save_localStorage({ time: time_label, task: task_ })
+        let obj = {
+            day: luxon.DateTime.now().toLocaleString(),
+            time: time_label,
+            task: task_
+        }
+
+        console.log(obj)
+
+        retrieve_save_localStorage(obj)
 
     });
 
