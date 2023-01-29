@@ -264,7 +264,7 @@ $(document).ready(function () {
 
         // timeBlock data will save only week days and task_ not be null 
         if (task_.length > 0  && getWorkDaysHours.dayWeekOrWeekend === 'week') { // check the input val
-
+            // time_label is to get the timeBlock label (time - hour)
             let time_label = $(`#label-${this.id}`).text().trim();
 
             let obj = {
