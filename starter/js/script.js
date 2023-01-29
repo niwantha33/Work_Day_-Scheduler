@@ -197,7 +197,10 @@ let save_localStorage = function (newArray) {
         then create temporary empty array using Array object.
 
         hasOwnProperty() method will check  whether "schedule"  key is existing
-        or not. If the key is there, then, 
+        or not. If the key is there, then, retrieve the data parse to JSON,
+        then elements will push to the array using forEach() function.
+
+        obj 
 
 */
 
@@ -235,7 +238,7 @@ $(document).ready(function () {
 
     let prev_timer = -Infinity
 
-    let updateTime = function () {
+    let startApp = function () {
 
         let currentDay = $('#currentDay');
 
@@ -249,7 +252,8 @@ $(document).ready(function () {
                 currentDay.text(cTime); // update the time every sec 
 
                 // console.log(luxon.DateTime.now().hour, prev_timer)
-                // every hour 
+
+                // run set_time_blocks() function every hour  
                 if (prev_timer !== luxon.DateTime.now().hour) {
                     // console.log(luxon.DateTime.now().hour, prev_timer)
                     set_time_blocks();
@@ -261,8 +265,8 @@ $(document).ready(function () {
             }, 1000);
     }
 
-
-    updateTime();
+    // start main app.
+    startApp();
 
 
 
