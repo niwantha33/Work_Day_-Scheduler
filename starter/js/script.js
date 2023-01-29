@@ -65,27 +65,36 @@ let set_time_blocks = function () {
         "10AM",
         "11AM",
         "12AM",
-        "1PM",
-        "2PM",
-        "3PM",
+        "6PM",
+        "7PM",
+        "8PM",
         "4PM",
         "5PM",
     ]
 
     let color_class = ['past', 'present', 'future'];
-
-
-    // let timeFrame = "12PM"
+   
     let container = $('.container');
 
+    // delete all the children 
+    if (container.children().length > 0) {
+
+        container.empty();
+
+    }
+
+
     for (let i = 0; i < time_.length; i++) {
-        let idx = -1;
+        let idx = -1; // get the index of the time_
         let time_label = 0;
+        // console.log(get_working_dh.hour_12hrs_format)
 
         if (time_.includes(get_working_dh.hour_12hrs_format)) {
 
             idx = time_.indexOf(get_working_dh.hour_12hrs_format);
         }
+
+        // set the color of the rows 
         if (i < idx) {
             time_label = color_class[0];
 
@@ -101,7 +110,7 @@ let set_time_blocks = function () {
             id: "row_animate"
         }).appendTo(container);
 
-        let label = $("<label/>", {
+        $("<label/>", {
             class: "hour",
             for: "hour",
             id: `label-${i}`,
@@ -109,14 +118,14 @@ let set_time_blocks = function () {
 
         }).appendTo(row);
 
-        let textArea = $("<textarea/>", {
+        $("<textarea/>", {
             class: `${time_label} description`,
             id: `${i}`,
             name: `${i}`
 
         }).appendTo(row);
 
-        let button = $("<button/>", {
+        $("<button/>", {
             class: `saveBtn ${i}`,
             id: `${i}`,
             html: `<i class="bi bi-save"></i>`
@@ -134,10 +143,12 @@ let set_time_blocks = function () {
 
                 let idx_ = time_.indexOf(element.time);
 
-                if(luxon.DateTime.now().toLocaleString() === element.day){
+                // console.log(luxon.DateTime.now().toLocaleString(), element.day)
+
+                if (luxon.DateTime.now().toLocaleString() === element.day) {
                     $(`textArea[id=${idx_}]`).text(element.task);
                 }
-                
+
             });
 
         }
@@ -225,18 +236,24 @@ $(document).ready(function () {
     let prev_timer = -Infinity
 
     let updateTime = function () {
+
         let currentDay = $('#currentDay');
+
         currentDay.addClass('time-block');
+
         setInterval(
-            () => {
+            function () {
                 //EEEE	day 
                 let cTime = luxon.DateTime.now().toFormat('EEEE, dd-MMMM-yyyy HH:mm:ss ')	//=>	"01-27-2023"
-                currentDay.text(cTime);
+
+                currentDay.text(cTime); // update the time every sec 
+
+                // console.log(luxon.DateTime.now().hour, prev_timer)
                 // every hour 
                 if (prev_timer !== luxon.DateTime.now().hour) {
-
-                    set_time_blocks()
-
+                    // console.log(luxon.DateTime.now().hour, prev_timer)
+                    set_time_blocks();
+                    // update the prev_timer to current hour 
                     prev_timer = luxon.DateTime.now().hour;
 
                 }
@@ -255,17 +272,18 @@ $(document).ready(function () {
 
         let task_ = $(`#${this.id}`).val().trim();
 
-        let time_label = $(`#label-${this.id}`).text().trim();
+        if (task_.length > 0) {
 
-        let obj = {
-            day: luxon.DateTime.now().toLocaleString(),
-            time: time_label,
-            task: task_
+            let time_label = $(`#label-${this.id}`).text().trim();
+
+            let obj = {
+                day: luxon.DateTime.now().toLocaleString(), // 1/29/2023
+                time: time_label,
+                task: task_
+            }
+
+            retrieve_save_localStorage(obj)
         }
-
-        console.log(obj)
-
-        retrieve_save_localStorage(obj)
 
     });
 
