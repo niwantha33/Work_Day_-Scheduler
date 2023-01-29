@@ -18,7 +18,7 @@ $(document).ready(function () {
 
             workDaysHours = {
                 // check the day 
-                dayCat: ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week',
+                get dayWeekOrWeekend() { return ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week' },
 
                 get day() { return _day[0] }, // day
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
         let time_ = new Array(10);
 
         time_ = [ // standard business hours
-            
+
             "8AM",
             "9AM",
             "10AM",
@@ -65,8 +65,8 @@ $(document).ready(function () {
             "3PM",
             "4PM",
             "5PM",
-        ]
-
+        ];
+        // three type of color-code 
         let color_class = ['past', 'present', 'future'];
 
         let container = $('.container');
@@ -79,7 +79,9 @@ $(document).ready(function () {
         }
 
         for (let i = 0; i < time_.length; i++) {
+
             let idx = -1; // get the index of the time_
+
             let time_label = 0;
             // console.log(get_working_dh.hour_12hrs_format)
 
@@ -260,8 +262,8 @@ $(document).ready(function () {
 
         let task_ = $(`#${this.id}`).val().trim(); // get the textarea val and remove white space 
 
-
-        if (task_.length > 0) { // check the input val
+        // timeBlock data will save only week days and task_ not be null 
+        if (task_.length > 0  && getWorkDaysHours.dayWeekOrWeekend === 'week') { // check the input val
 
             let time_label = $(`#label-${this.id}`).text().trim();
 
