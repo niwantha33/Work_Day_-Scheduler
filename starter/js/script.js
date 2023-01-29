@@ -270,9 +270,10 @@ $(document).ready(function () {
 
         e.preventDefault();
 
-        let task_ = $(`#${this.id}`).val().trim();
+        let task_ = $(`#${this.id}`).val().trim(); // get the textarea val and remove white space 
 
-        if (task_.length > 0) {
+        
+        if (task_.length > 0) { // check the input val
 
             let time_label = $(`#label-${this.id}`).text().trim();
 
