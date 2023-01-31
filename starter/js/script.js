@@ -7,49 +7,49 @@ $(document).ready(function () {
     @param: N/A
     @return: N/A
     */
-    let getWorkDaysHours = function () {
+    // let getWorkDaysHours = function () {
 
-        // create object to handle working days and hours 
-        let workDaysHours = new Map();
+    //     // create object to handle working days and hours 
+    //     let workDaysHours = new Map();
 
-        let getCurrentDayAndTime = function () { // inner function 
-            // splitting the string to separate day and 24 hour
-            let _day = luxon.DateTime.now().toFormat('EEE, HH:a').split(',');
+    //     let getCurrentDayAndTime = function () { // inner function 
+    //         // splitting the string to separate day and 24 hour
+    //         let _day = luxon.DateTime.now().toFormat('EEE, HH:a').split(',');
 
-            // console.log(_day)
+    //         // console.log(_day)
 
-            workDaysHours = {
-                // check the day 
-                get dayWeekOrWeekend() { return ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week' },
+    //         workDaysHours = {
+    //             // check the day 
+    //             get dayWeekOrWeekend() { return ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week' },
 
-                get day() { return _day[0] }, // day
+    //             get day() { return _day[0] }, // day
 
-                get hour_12hrs_format() {
+    //             get hour_12hrs_format() {
 
-                    let _t = _day[1].split(':') // split the "19: PM"
+    //                 let _t = _day[1].split(':') // split the "19: PM"
 
-                    let _hour = Number(_t[0]);
+    //                 let _hour = Number(_t[0]);
 
-                    let tmp_hour = 0;
+    //                 let tmp_hour = 0;
 
-                    // convert the 24hrs hour to 12 
-                    if (_hour > 12) {
+    //                 // convert the 24hrs hour to 12 
+    //                 if (_hour > 12) {
 
-                        tmp_hour = _hour - 12; // 
+    //                     tmp_hour = _hour - 12; // 
 
-                    } else {
-                        tmp_hour = _hour;
-                    }
+    //                 } else {
+    //                     tmp_hour = _hour;
+    //                 }
 
-                    return tmp_hour + _t[1];
+    //                 return tmp_hour + _t[1];
 
-                },
-            }
-            return workDaysHours;
-        }();
+    //             },
+    //         }
+    //         return workDaysHours;
+    //     }();
 
-        return getCurrentDayAndTime;
-    }();
+    //     return getCurrentDayAndTime;
+    // }();
 
     let createTimeBlocks = function () {
 
@@ -252,8 +252,15 @@ $(document).ready(function () {
         }
     }
 
-    function displayTimeBlockStoreMsg(){
+    function displayTimeBlockStoreMsg(msg){
+        let header = $('header');
+        let pEl = $('<p>');
+        pEl.text(`${msg} - save to local storage`);
+        pEl.addClass('time-block')
+        pEl.css('color', 'red')
+        header.append(pEl);
         
+        return pEl;
     }
 
     let startApp = function () {
@@ -309,7 +316,13 @@ $(document).ready(function () {
             }
 
             retrieveAndSaveToLocalStorage(obj);
-            displayTimeBlockStoreMsg();
+
+            let pEl = displayTimeBlockStoreMsg(`${time_label}[${task_}]`);
+
+            setTimeout(()=>{
+                pEl.remove();
+
+            }, 2000);
         }
 
     });
