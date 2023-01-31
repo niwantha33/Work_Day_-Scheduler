@@ -87,9 +87,9 @@ Changing color-code
 -   If the current index is less than 'idx', the class is set to 'past' (color_code[0]). If the current index is equal to 'idx', the class is set to 'present' (color_code[1]). And if the current index is greater than 'idx', the class is set to 'future' (color_code[2])
 
 ```javascript
-            if (time_.includes(getWorkDaysHours.hour_12hrs_format)) {
+            if (time_.includes(currentTime)) {
 
-                idx = time_.indexOf(getWorkDaysHours.hour_12hrs_format);
+                idx = time_.indexOf(currentTime);
             }
 
             // set the color of the rows 

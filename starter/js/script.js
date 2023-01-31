@@ -227,8 +227,8 @@ $(document).ready(function () {
 
         currentDay.addClass('time-block');
 
-        // display current time 
-        let prev_timer = -Infinity
+        // every our this variable will update to call  createTimeBlocks function  
+        let prev_timer = -Infinity // initial set value 
 
         setInterval(
             function () {
@@ -248,7 +248,7 @@ $(document).ready(function () {
                     prev_timer = luxon.DateTime.now().hour;
                 }
 
-            }, 1000);
+            }, 1000);// call every one sec 
     }
 
     $(document).on('click', '.saveBtn', function (e) {
