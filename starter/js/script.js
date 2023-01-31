@@ -32,13 +32,15 @@ $(document).ready(function () {
 
         // delete all the children 
         if (container.children().length > 0) {
-           
+
             container.empty();
 
         }
         // console.log("updates new...")
 
         for (let i = 0; i < time_.length; i++) {
+
+            console.log(i)
 
             let idx = -1; // get the index of the time_
 
@@ -70,11 +72,11 @@ $(document).ready(function () {
             if (time_.includes(currentTime)) {
 
                 idx = time_.indexOf(currentTime);
-                // console.log(idx)
+                console.log(idx)
             }
 
             // set the color of the rows 
-            if (i < idx) {
+            if (i < idx || idx === -1) {
                 time_label = color_code[0];
 
             } else if (i == idx) {
@@ -210,14 +212,14 @@ $(document).ready(function () {
     }
 
     // display save message
-    function displayTimeBlockStoreMsg(msg){
+    function displayTimeBlockStoreMsg(msg) {
         let header = $('header');
         let pEl = $('<p>');
         pEl.text(`${msg} - save to local storage`);
         pEl.addClass('time-block')
         pEl.css('color', 'red')
         header.append(pEl);
-        
+
         return pEl;
     }
 
@@ -278,7 +280,7 @@ $(document).ready(function () {
 
             let pEl = displayTimeBlockStoreMsg(`${time_label}[${task_}]`);
             // wait 2 sec before remove created p element 
-            setTimeout(()=>{
+            setTimeout(() => {
                 pEl.remove();
 
             }, 2000);
