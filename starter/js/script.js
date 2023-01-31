@@ -252,15 +252,16 @@ $(document).ready(function () {
         }
     }
 
-    // display current time 
 
-    let prev_timer = -Infinity
 
     let startApp = function () {
 
         let currentDay = $('#currentDay');
 
         currentDay.addClass('time-block');
+
+        // display current time 
+        let prev_timer = -Infinity
 
         setInterval(
             function () {
@@ -272,15 +273,15 @@ $(document).ready(function () {
                 // // console.log(luxon.DateTime.now().hour, prev_timer)
 
                 // run set_time_blocks() function every hour  
-                if (prev_timer !== luxon.DateTime.now().minute) {
+                if (prev_timer !== luxon.DateTime.now().hour) {
                     // console.log(luxon.DateTime.now().minute, prev_timer)
                     createTimeBlocks();
                     // debugger;
                     // update the prev_timer to current hour 
-                    prev_timer = luxon.DateTime.now().minute;
+                    prev_timer = luxon.DateTime.now().hour;
                 }
 
-            }, 5000);
+            }, 1000);
     }
 
     $(document).on('click', '.saveBtn', function (e) {
@@ -289,8 +290,13 @@ $(document).ready(function () {
 
         let task_ = $(`#${this.id}`).val().trim(); // get the textarea val and remove white space 
 
+
+        let _dayWeekOrWeekend = luxon.DateTime.now().toFormat('EEE');
         // timeBlock data will save only week days and task_ not be null 
-        if (task_.length > 0 && getWorkDaysHours.dayWeekOrWeekend === 'week') { // check the input val
+
+        let dayWeekOrWeekend = ['Sat', 'Sun'].includes(_dayWeekOrWeekend[0]) ? 'weekend' : 'week';
+
+        if (task_.length > 0 && dayWeekOrWeekend === 'week') { // check the input val
             // time_label is to get the timeBlock label (time - hour)
             let time_label = $(`#label-${this.id}`).text().trim();
 
