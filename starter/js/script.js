@@ -16,6 +16,8 @@ $(document).ready(function () {
             // splitting the string to separate day and 24 hour
             let _day = luxon.DateTime.now().toFormat('EEE, HH:a').split(',');
 
+            // console.log(_day)
+
             workDaysHours = {
                 // check the day 
                 get dayWeekOrWeekend() { return ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week' },
@@ -73,21 +75,45 @@ $(document).ready(function () {
 
         // delete all the children 
         if (container.children().length > 0) {
-
+            // console.log("remove childs")
             container.empty();
 
         }
+        // console.log("updates new...")
 
         for (let i = 0; i < time_.length; i++) {
 
             let idx = -1; // get the index of the time_
 
             let time_label = 0;
-            // console.log(get_working_dh.hour_12hrs_format)
+            // // console.log(get_working_dh.hour_12hrs_format)
 
-            if (time_.includes(getWorkDaysHours.hour_12hrs_format)) {
+            let _current_hour = luxon.DateTime.now().toFormat('HH:a').split(',');
+            // console.log(_current_hour)
+            let _t = _current_hour[0].split(':') // split the "19: PM"
 
-                idx = time_.indexOf(getWorkDaysHours.hour_12hrs_format);
+            let _h = Number(_t[0]);
+
+            let tmp_hour = 0;
+
+            // convert the 24hrs hour to 12 
+            if (_h > 12) {
+
+                tmp_hour = _h - 12; // 
+
+            } else {
+                tmp_hour = _h;
+            }
+
+            let currentTime = tmp_hour + _t[1];
+            // console.log(currentTime)
+
+            // getWorkDaysHours.hour_12hrs_format
+
+            if (time_.includes(currentTime)) {
+
+                idx = time_.indexOf(currentTime);
+                // console.log(idx)
             }
 
             // set the color of the rows 
@@ -127,6 +153,7 @@ $(document).ready(function () {
                 html: `<i class="bi bi-save"></i>`
 
             }).appendTo(row);
+            // console.log(row)
 
         }
 
@@ -139,7 +166,7 @@ $(document).ready(function () {
 
                     let idx_ = time_.indexOf(element.time);
 
-                    // console.log(luxon.DateTime.now().toLocaleString(), element.day)
+                    // // console.log(luxon.DateTime.now().toLocaleString(), element.day)
 
                     if (luxon.DateTime.now().toLocaleString() === element.day) {
                         $(`textArea[id=${idx_}]`).text(element.task);
@@ -242,18 +269,18 @@ $(document).ready(function () {
 
                 currentDay.text(cTime); // update the time every sec 
 
-                // console.log(luxon.DateTime.now().hour, prev_timer)
+                // // console.log(luxon.DateTime.now().hour, prev_timer)
 
                 // run set_time_blocks() function every hour  
-                if (prev_timer !== luxon.DateTime.now().hour) {
-                    console.log(luxon.DateTime.now().hour, prev_timer)
+                if (prev_timer !== luxon.DateTime.now().minute) {
+                    // console.log(luxon.DateTime.now().minute, prev_timer)
                     createTimeBlocks();
+                    // debugger;
                     // update the prev_timer to current hour 
-                    prev_timer = luxon.DateTime.now().hour;
-
+                    prev_timer = luxon.DateTime.now().minute;
                 }
 
-            }, 1000);
+            }, 5000);
     }
 
     $(document).on('click', '.saveBtn', function (e) {
@@ -263,7 +290,7 @@ $(document).ready(function () {
         let task_ = $(`#${this.id}`).val().trim(); // get the textarea val and remove white space 
 
         // timeBlock data will save only week days and task_ not be null 
-        if (task_.length > 0  && getWorkDaysHours.dayWeekOrWeekend === 'week') { // check the input val
+        if (task_.length > 0 && getWorkDaysHours.dayWeekOrWeekend === 'week') { // check the input val
             // time_label is to get the timeBlock label (time - hour)
             let time_label = $(`#label-${this.id}`).text().trim();
 
@@ -273,7 +300,8 @@ $(document).ready(function () {
                 task: task_
             }
 
-            retrieveAndSaveToLocalStorage(obj)
+            retrieveAndSaveToLocalStorage(obj);
+            displayTimeBlockStoreMsg();
         }
 
     });
