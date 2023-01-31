@@ -246,7 +246,7 @@ $(document).ready(function () {
 
                 // run set_time_blocks() function every hour  
                 if (prev_timer !== luxon.DateTime.now().hour) {
-                    // console.log(luxon.DateTime.now().hour, prev_timer)
+                    console.log(luxon.DateTime.now().hour, prev_timer)
                     createTimeBlocks();
                     // update the prev_timer to current hour 
                     prev_timer = luxon.DateTime.now().hour;

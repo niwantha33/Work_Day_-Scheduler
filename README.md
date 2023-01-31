@@ -1,5 +1,5 @@
 # Work_Day_Scheduler
-Link: [https://niwantha33.github.io/Work_Day_Scheduler/](https://niwantha33.github.io/Work_Day_Scheduler/)
+Link: [https://niwantha33.github.io/Work_Day_Scheduler/](https://niwantha33.github.io/Work_Day_Scheduler)
 
 The below code is validating the input  (task_.length > 0) and if the current day is a weekday (getWorkDaysHours.dayWeekOrWeekend === 'week'). If both of these conditions are true, it creates an object with the current date, the time, and the task, and then saves this object to local storage using the function retrieveAndSaveToLocalStorage(obj). 
 
