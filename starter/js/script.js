@@ -315,6 +315,7 @@ $(document).ready(function () {
                 task: task_
             }
 
+            
             retrieveAndSaveToLocalStorage(obj);
 
             let pEl = displayTimeBlockStoreMsg(`${time_label}[${task_}]`);
