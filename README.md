@@ -104,6 +104,31 @@ Changing color-code
             }
 
 ```
+createTimeBlocks() function will call every hour and currentDay <p> element text will update  every sec. 
+
+```javascript
+
+            setInterval(
+            function () {
+                //EEEE	day 
+                let cTime = luxon.DateTime.now().toFormat('EEEE, dd-MMMM-yyyy HH:mm:ss ')	//=>	"01-27-2023"
+
+                currentDay.text(cTime); // update the time every sec 
+
+                // // console.log(luxon.DateTime.now().hour, prev_timer)
+
+                // run set_time_blocks() function every hour  
+                if (prev_timer !== luxon.DateTime.now().hour) {
+                    // console.log(luxon.DateTime.now().minute, prev_timer)
+                    createTimeBlocks();
+                    // debugger;
+                    // update the prev_timer to current hour 
+                    prev_timer = luxon.DateTime.now().hour;
+                }
+
+            }, 1000);// call every one sec 
+
+```
 
 ## Project Management Tool - ZenHub 
 
