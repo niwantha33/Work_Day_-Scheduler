@@ -131,6 +131,7 @@ createTimeBlocks() function will call every hour and currentDay <p> element text
 ```
 
 ## Project Management Tool - ZenHub 
+To arrange and select the most important  GitHub project issues,  I learned a new tool called  ZenHub project management tool which helped me to visualise and speed up my work.  
 
 ![project](./starter/images/zenhub.png)
 
