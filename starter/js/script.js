@@ -252,7 +252,9 @@ $(document).ready(function () {
         }
     }
 
-
+    function displayTimeBlockStoreMsg(){
+        
+    }
 
     let startApp = function () {
 
