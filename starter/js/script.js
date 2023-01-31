@@ -1,55 +1,12 @@
+/*
 
-// wait to fully load
+
+
+*/
+
+// wait - fully load
 $(document).ready(function () {
 
-    /*
-    @brief: get working hours and days 
-    @param: N/A
-    @return: N/A
-    */
-    // let getWorkDaysHours = function () {
-
-    //     // create object to handle working days and hours 
-    //     let workDaysHours = new Map();
-
-    //     let getCurrentDayAndTime = function () { // inner function 
-    //         // splitting the string to separate day and 24 hour
-    //         let _day = luxon.DateTime.now().toFormat('EEE, HH:a').split(',');
-
-    //         // console.log(_day)
-
-    //         workDaysHours = {
-    //             // check the day 
-    //             get dayWeekOrWeekend() { return ['Sat', 'Sun'].includes(_day[0]) ? 'weekend' : 'week' },
-
-    //             get day() { return _day[0] }, // day
-
-    //             get hour_12hrs_format() {
-
-    //                 let _t = _day[1].split(':') // split the "19: PM"
-
-    //                 let _hour = Number(_t[0]);
-
-    //                 let tmp_hour = 0;
-
-    //                 // convert the 24hrs hour to 12 
-    //                 if (_hour > 12) {
-
-    //                     tmp_hour = _hour - 12; // 
-
-    //                 } else {
-    //                     tmp_hour = _hour;
-    //                 }
-
-    //                 return tmp_hour + _t[1];
-
-    //             },
-    //         }
-    //         return workDaysHours;
-    //     }();
-
-    //     return getCurrentDayAndTime;
-    // }();
 
     let createTimeBlocks = function () {
 
@@ -75,7 +32,7 @@ $(document).ready(function () {
 
         // delete all the children 
         if (container.children().length > 0) {
-            // console.log("remove childs")
+           
             container.empty();
 
         }
@@ -180,7 +137,7 @@ $(document).ready(function () {
             throw e;
         }
     }
-
+    // get old data and return as object 
     let checkDataPersist = function () {
 
         try {
@@ -199,7 +156,7 @@ $(document).ready(function () {
         }
 
     }
-
+    // save to local storage 
     let saveToLocalStorage = function (newArray) {
         // debugger;
 
@@ -252,6 +209,7 @@ $(document).ready(function () {
         }
     }
 
+    // display save message
     function displayTimeBlockStoreMsg(msg){
         let header = $('header');
         let pEl = $('<p>');
@@ -315,11 +273,11 @@ $(document).ready(function () {
                 task: task_
             }
 
-            
+            // create new p element and display saved 
             retrieveAndSaveToLocalStorage(obj);
 
             let pEl = displayTimeBlockStoreMsg(`${time_label}[${task_}]`);
-
+            // wait 2 sec before remove created p element 
             setTimeout(()=>{
                 pEl.remove();
 

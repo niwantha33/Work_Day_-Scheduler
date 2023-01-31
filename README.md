@@ -5,13 +5,18 @@ Link: [https://niwantha33.github.io/Work_Day_Scheduler/](https://niwantha33.gith
 ![project](./starter/images/web.png)
 
 
-The below code is validating the input  (task_.length > 0) and if the current day is a weekday (getWorkDaysHours.dayWeekOrWeekend === 'week'). If both of these conditions are true, it creates an object with the current date, the time, and the task, and then saves this object to local storage using the function retrieveAndSaveToLocalStorage(obj). 
+The below code is validating the input  (task_.length > 0) and if the current day is a weekday (dayWeekOrWeekend === 'week'). If both of these conditions are true, it creates an object with the current date, the time, and the task, and then saves this object to local storage using the function retrieveAndSaveToLocalStorage(obj). 
 
 
 ```javascript
     // timeBlock data -  save only weekdays and task_.length >0  
-        if (task_.length > 0  && getWorkDaysHours.dayWeekOrWeekend === 'week') { // check the input val
+     let _dayWeekOrWeekend = luxon.DateTime.now().toFormat('EEE');
+        // timeBlock data will save only week days and task_ not be null 
 
+        let dayWeekOrWeekend = ['Sat', 'Sun'].includes(_dayWeekOrWeekend[0]) ? 'weekend' : 'week';
+
+        if (task_.length > 0 && dayWeekOrWeekend === 'week') { // check the input val
+            // time_label is to get the timeBlock label (time - hour)
             let time_label = $(`#label-${this.id}`).text().trim();
 
             let obj = {
@@ -20,7 +25,15 @@ The below code is validating the input  (task_.length > 0) and if the current da
                 task: task_
             }
 
-            retrieveAndSaveToLocalStorage(obj)
+            // create new p element and display saved 
+            retrieveAndSaveToLocalStorage(obj);
+            // create new p element and display saved 
+            let pEl = displayTimeBlockStoreMsg(`${time_label}-${task_}`);
+            // wait 2 sec before remove created p element 
+            setTimeout(()=>{
+                pEl.remove();
+
+            }, 2000);
         }
 ```
 To create rows of elements (label, textarea and button) to the container div element (class 'container'),
